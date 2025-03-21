@@ -23,7 +23,7 @@ export default function Home({ initialData }: { initialData: Field[] }) {
 
   return (
     <div className="flex justify-center items-center w-full h-fit  my-9">
-      <div className="flex flex-col p-7 w-[900px] h-fit justify-center border-2">
+      <div className="flex flex-col p-7 w-[1200px] h-fit justify-center border-2">
         <h1 className="mb-4">Accutics coding challenge:</h1>
         <div className="flex flex-row justify-between w-full gap-x-4">
           <OptionsContainer />
