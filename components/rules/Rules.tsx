@@ -6,7 +6,7 @@ export default function Rules({
   rules,
   fieldIndex,
 }: {
-  rules: any;
+  rules: RuleType[];
   fieldIndex: number;
 }) {
   const { data, setData } = useStore();
@@ -15,10 +15,6 @@ export default function Rules({
     () => data.map((field: FieldType) => field.field_key),
     [data]
   );
-
-  useEffect(() => {
-    console.log("data", data);
-  }, [data]);
 
   const onSelectChange = (targetRule: RuleType, newKey: string) => {
     const updatedData = [...data];
