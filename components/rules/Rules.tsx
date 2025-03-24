@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import useStore from "@/store/useStore";
-import { Field as FieldType, Rule as ruleType } from "@/types/types";
+import { Field as FieldType, Rule as RuleType } from "@/types/types";
 
 export default function Rules({
   rules,
@@ -16,10 +16,14 @@ export default function Rules({
     [data]
   );
 
-  const onSelectChange = (targetRule: ruleType, newKey: string) => {
+  useEffect(() => {
+    console.log("data", data);
+  }, [data]);
+
+  const onSelectChange = (targetRule: RuleType, newKey: string) => {
     const updatedData = [...data];
 
-    const updateRuleTree = (rules: ruleType[]): ruleType[] =>
+    const updateRuleTree = (rules: RuleType[]): RuleType[] =>
       rules.map((rule) =>
         rule === targetRule
           ? { ...rule, rule_field_key: newKey }
@@ -32,10 +36,10 @@ export default function Rules({
     setData(updatedData);
   };
 
-  const onRuleValueChange = (targetRule: ruleType, newValue: string) => {
+  const onRuleValueChange = (targetRule: RuleType, newValue: string) => {
     const updatedData = [...data];
 
-    const updateRuleTree = (rules: ruleType[]): ruleType[] =>
+    const updateRuleTree = (rules: RuleType[]): RuleType[] =>
       rules.map((rule) =>
         rule === targetRule
           ? { ...rule, rule_value: newValue }
@@ -48,10 +52,10 @@ export default function Rules({
     setData(updatedData);
   };
 
-  const onAddChildRule = (targetRule: ruleType) => {
+  const onAddChildRule = (targetRule: RuleType) => {
     const updatedData = [...data];
 
-    const updateRuleTree = (rules: ruleType[]): ruleType[] => {
+    const updateRuleTree = (rules: RuleType[]): RuleType[] => {
       return rules.map((rule) => {
         if (rule === targetRule) {
           return {
@@ -98,8 +102,8 @@ export default function Rules({
     setData(updatedData);
   };
 
-  const renderRules = (rules: ruleType[], level = 0) => {
-    return rules.map((fieldRule: ruleType, i: number) => (
+  const renderRules = (rules: RuleType[], level = 0) => {
+    return rules.map((fieldRule: RuleType, i: number) => (
       <div key={`${level}-${i}`} className="ml-[10px] border-l pl-3">
         <section className="flex gap-x-2 border-2 p-3">
           <select

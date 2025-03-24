@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import useStore from "@/store/useStore";
 import Field from "@/components/field/Field";
 import { Field as FieldType } from "@/types/types";
