@@ -7,7 +7,7 @@ import ArrowIcon from "@/components/icon/ArrowIcon";
 
 import Options from "@/components/options/Options";
 import Rules from "@/components/rules/Rules";
-import { Field as FieldType } from "@/types/types";
+import { Field as FieldType, Rule as RuleType } from "@/types/types";
 
 export default function Field({
   fieldData,
@@ -37,13 +37,37 @@ export default function Field({
           defaultValue={fieldData.field_name}
           onBlur={(e) => {
             const updatedData = [...data];
+            const oldFieldKey = updatedData[fieldIndex].field_key;
+            const newFieldKey = e.target.value
+              .toLocaleLowerCase()
+              .replace(/\s+/g, "_");
+
+            // Update the current field's name and key
             updatedData[fieldIndex] = {
               ...updatedData[fieldIndex],
               field_name: e.target.value,
-              field_key: e.target.value
-                .toLocaleLowerCase()
-                .replace(/\s+/g, "_"),
+              field_key: newFieldKey,
             };
+
+            // Helper function to update rules recursively
+            const updateRuleTree = (rules: RuleType[]): RuleType[] =>
+              rules.map((rule) => ({
+                ...rule,
+                rule_field_key:
+                  rule.rule_field_key === oldFieldKey
+                    ? newFieldKey
+                    : rule.rule_field_key,
+                children: updateRuleTree(rule.children),
+              }));
+
+            // Update rules in every field
+            updatedData.forEach((field, idx) => {
+              updatedData[idx] = {
+                ...field,
+                rules: updateRuleTree(field.rules),
+              };
+            });
+
             setData(updatedData);
             setIsEdit(false);
           }}
